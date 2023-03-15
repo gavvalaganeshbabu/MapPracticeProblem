@@ -1,12 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to Roll a Die Result By Map Dictionary</title>
+  <meta charset="UTF-8">
+  <title>Welcome to Roll a Die Result By Map Dictionary</title>
 </head>
 <body>
-    
+  <h1>Die Roll Results</h1>
+  <div id="results"></div>
+
+  <script>
+    function rollDie() {
+      return Math.floor(Math.random() * 6) + 1;
+    }
+
+    function findMaxMin(dic) {
+      let maxCount = 0;
+      let minCount = 10;
+      let maxNumber;
+      let minNumber;
+      for (const number in dic) {
+        const count = dic[number];
+        if (count > maxCount) {
+          maxCount = count;
+          maxNumber = number;
+        }
+        if (count < minCount) {
+          minCount = count;
+          minNumber = number;
+        }
+      }
+      const resultsDiv = document.querySelector("#results");
+      resultsDiv.innerHTML += `Number ${maxNumber} reached maximum times (${maxCount})<br>`;
+      resultsDiv.innerHTML += `Number ${minNumber} reached minimum times (${minCount})<br>`;
+    }
+
+    function rollDiceUntilLimitReached() {
+      const results = {};
+      let limitReached = false;
+      let rolls = 0;
+
+      while (!limitReached) {
+        const number = rollDie();
+        if (results[number]) {
+          results[number]++;
+        } else {
+          results[number] = 1;
+        }
+        rolls++;
+
+        if (results[number] === 10) {
+          limitReached = true;
+        }
+      }
+
+      const resultsDiv = document.querySelector("#results");
+      resultsDiv.innerHTML += `It took ${rolls} rolls to reach the limit<br>`;
+      findMaxMin(results);
+    }
+
+    rollDiceUntilLimitReached();
+  </script>
 </body>
 </html>
