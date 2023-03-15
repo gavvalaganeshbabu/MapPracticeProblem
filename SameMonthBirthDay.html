@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Finding Same Birth Months</title>
+  </head>
+  <body>
+    <h1>Birth Months</h1>
+    <button onclick="findBirthMonths()">Find Birth Months</button>
+    <div id="output"></div>
+    <script>
+      function findBirthMonths() {
+        // array to store birth months
+        let birthMonths = [];
+
+        // generate birth month for 50 individuals
+        for (let i = 0; i < 50; i++) {
+          // generate a random birth month between Jan(0) and Dec(11)
+          let month = Math.floor(Math.random() * 12);
+
+          // generate a random year between 1992 and 1993
+          let year = Math.floor(Math.random() * 2) + 1992;
+
+          // add the birth month to the array
+          birthMonths.push({ month: month, year: year });
+        }
+
+        // object to store individuals with same birth months
+        let sameMonths = {};
+
+        // loop through the birthMonths array to find individuals with same birth months
+        for (let i = 0; i < birthMonths.length; i++) {
+          let month = birthMonths[i].month;
+          let year = birthMonths[i].year;
+
+          // check if the month already exists in sameMonths object
+          if (month in sameMonths) {
+            // add the individual to the existing month
+            sameMonths[month].push({ month: month, year: year });
+          } else {
+            // create a new array for the month and add the individual
+            sameMonths[month] = [{ month: month, year: year }];
+          }
+        }
+
+        // create HTML output for individuals with same birth months
+        let output = "";
+        for (let month in sameMonths) {
+          output += `<h2>Month: ${month}</h2>`;
+          for (let i = 0; i < sameMonths[month].length; i++) {
+            output += `<p>Year: ${sameMonths[month][i].year}</p>`;
+          }
+        }
+
+        // display the output in the HTML
+        document.getElementById("output").innerHTML = output;
+      }
+    </script>
+  </body>
+</html>
